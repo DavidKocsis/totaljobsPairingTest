@@ -1,10 +1,51 @@
-﻿@model PairingTest.Web.Models.QuestionnaireViewModel
+﻿@using PairingTest.Web.Models
+@model PairingTest.Web.Models.QuestionnaireViewModel
 
 <html>
-    <head>
-        <title>@Model.QuestionnaireTitle</title>
-    </head>
-    <body>
-              
-    </body>
+<head>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <title>@Model.QuestionnaireTitle</title>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand">Questionnaire</a>
+        </div>
+    </div>
+</nav>
+    <div class="container theme-showcase" role="main">
+
+        <div class="jumbotron">
+            <h1>@Model.QuestionnaireTitle</h1>
+            <p>Please answer the below questions:</p>
+    
+        @if (Model.Status == ResponseStatus.QuestionsFound)
+        {
+            using (Html.BeginForm("SubmitAnswer", "Questionnaire", FormMethod.Post))
+            {
+                for (var i = 0; i < Model.QuestionsText.Count; i++)
+                {
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@Model.QuestionsText[i]</h3>
+                        </div>
+                            @Html.TextBoxFor(x => x.Answers[i], null, new {@class = "panel-body", @style = "width: 100%" })
+                    </div>
+                    <br />
+                }
+                <button type="submit" class="btn btn-lg btn-primary">send Answers</button>
+            }
+        }
+        else
+        {
+            <p>Please answer the below questions:</p>
+        }
+                </div>
+    </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="/js/bootstrap.min.js"></script>
+</body>
 </html>
